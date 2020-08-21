@@ -5,7 +5,7 @@ exports.up = function (knex) {
       table.string("name");
       table.string("email");
       table.string("description");
-      table.integer("phone");
+      table.bigInteger("phone");
       table.timestamps(true, true);
     })
     .createTable("reviews", function (table) {
@@ -13,12 +13,15 @@ exports.up = function (knex) {
       table.string("name");
       table.string("email");
       table.string("review");
-      table.integer("phone");
+      table.bigInteger("phone");
       table.boolean("verified");
       table.timestamps(true, true);
     });
 };
 
 exports.down = function (knex) {
-  return knex.schema.dropTable("contact");
+  return Promise.all([
+    knex.schema.dropTable("reviews"),
+    knex.schema.dropTable("contact"),
+  ]);
 };
